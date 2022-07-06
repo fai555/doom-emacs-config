@@ -59,3 +59,6 @@
 
 ;; https://emacstil.com/til/2021/09/19/org-mermaid/
 (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
+
+;; https://stackoverflow.com/questions/18582869/only-highlight-not-the-entire-heading-line-in-org-mode-emacs
+(setq org-level-color-stars-only t)
