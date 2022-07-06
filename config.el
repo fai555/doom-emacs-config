@@ -56,3 +56,6 @@
   (set-face-attribute face nil :weight 'light :height 1.0)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
+
+;; https://emacstil.com/til/2021/09/19/org-mermaid/
+(setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
