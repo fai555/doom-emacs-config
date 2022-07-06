@@ -1,5 +1,5 @@
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 16 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 16))
+(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -22,7 +22,7 @@
 (setq magit-ediff-dwim-show-on-hunks t)
 
 
-(setq! doom-unicode-font (font-spec :family "MesloLGS NF" :size 12))
+(setq! doom-unicode-font (font-spec :family "MesloLGS NF" ))
 
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
@@ -45,3 +45,14 @@
 ;; these are the defaults (before I changed them)
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 3);;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+(defun my/org-mode-hook ()
+  "Stop the org-level headers from increasing in height relative to the other text."
+  (dolist (face '(org-level-1
+                  org-level-2
+                  org-level-3
+                  org-level-4
+                  org-level-5))
+  (set-face-attribute face nil :weight 'light :height 1.0)))
+
+(add-hook 'org-mode-hook #'my/org-mode-hook)
