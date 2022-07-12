@@ -8,7 +8,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/Volumes/base/cerebro/notes")
+(setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
 
 (after! org (setq org-hide-emphasis-markers t))
 
@@ -27,7 +27,7 @@
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
 
-(setq org-superstar-headline-bullets-list '("⦿" "⨠" "▶" "⁖" "✢" "❊"))
+(setq org-superstar-headline-bullets-list '("⦿" "⦿" "⦿" "⦿" "⦿"))
 
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
@@ -61,4 +61,28 @@
 (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
 
 ;; https://stackoverflow.com/questions/18582869/only-highlight-not-the-entire-heading-line-in-org-mode-emacs
-(setq org-level-color-stars-only t)
+;; (setq org-level-color-stars-only t)
+
+;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
+;; (setq org-todo-keyword-faces '(("DONE" . (:foreground "green"))))
+
+
+;; https://www.reddit.com/r/emacs/comments/evw0om/doom_emacs_newb_question/
+(after! org
+  (setq org-capture-templates
+        '(("t" "Get Shit Done" entry
+           (file "get-shit-done.org")
+           "* TODO %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
+           :kill-buffer t)
+          ("n" "Tech Notes" entry
+           (file "tech-notes.org")
+           "* %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
+           :kill-buffer t)
+          )))
+
+;; https://www.youtube.com/watch?v=i-nGmSQ5fh0
+(setq org-journal-date-prefix "#+TITLE: "
+      org-journal-time-prefix "* "
+      org-journal-date-format "%a, %Y-%m-%d"
+      org-journal-file-format "%Y-%m-%d.org"
+      )
