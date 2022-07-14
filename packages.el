@@ -48,3 +48,8 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+;; https://www.reddit.com/r/emacs/comments/k4zavc/powerline_doom_emacs/
+(package! powerline)
+
+(package! airline-themes)
