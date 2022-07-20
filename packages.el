@@ -49,7 +49,14 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! org-bullets)
+(package! org-superstar)
+
 ;; https://www.reddit.com/r/emacs/comments/k4zavc/powerline_doom_emacs/
 (package! powerline)
-
 (package! airline-themes)
+
+;; https://ruivieira.dev/doom-emacs.html#2QrAfe_5b_:0.H7O31EP5n:1~sesesseesesssesesesesesseessesesesesessesessessesesesssesessssessesesessss~m~n
+(package! beacon)
+(package! focus)
+(package! dirvish)

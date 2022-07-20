@@ -1,5 +1,5 @@
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light))
+(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 18 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 18 :weight 'light))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -32,8 +32,6 @@
 
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
-
-(setq doom-modeline-buffer-file-name-style 'truncate-with-project)
 
 (use-package! evil-escape
   :init
@@ -81,30 +79,68 @@
            :kill-buffer t)
           )))
 
+;; https://github.com/bastibe/org-journal#journal-file-content
+(defun org-journal-file-header-func (time)
+  "Custom function to create journal header."
+  (concat
+    (pcase org-journal-file-type
+      (`yearly "#+TITLE: Yearly Journal\n"))))
+
+(setq org-journal-file-header 'org-journal-file-header-func)
+
 ;; https://www.youtube.com/watch?v=i-nGmSQ5fh0
-(setq org-journal-date-prefix "#+TITLE: "
-      org-journal-time-prefix "* "
+(setq
       org-journal-date-format "%a, %Y-%m-%d"
-      org-journal-file-format "%Y-%m-%d.org"
+      org-journal-file-format "Journal_%Y.org"
+      org-journal-file-type 'yearly
       )
 
-;; https://github.com/seagle0128/doom-modeline/issues/189#issuecomment-507210875
+;; (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
+
+;; ;; https://github.com/seagle0128/doom-modeline/issues/189#issuecomment-507210875
 ;; (setq doom-modeline-height 1.5)
 ;; (set-face-attribute 'mode-line nil :height 200)
 ;; (set-face-attribute 'mode-line-inactive nil :height 200)
 
-;; The maximum displayed length of the branch name of version control.
+;; ;; The maximum displayed length of the branch name of version control.
 ;; (setq doom-modeline-vcs-max-length 19)
 
-;; Whether display the workspace name. Non-nil to display in the mode-line.
+;; ;; Whether display the workspace name. Non-nil to display in the mode-line.
 ;; (setq doom-modeline-workspace-name t)
 
-;; Whether display the environment version.
+;; ;; Whether display the environment version.
 ;; (setq doom-modeline-env-vercion t)
+
 
 (setq all-the-icons-scale-factor 0.8)
 
 
+(setq doom-theme 'doom-one)
+;; global beacon minor-mode
+(use-package! beacon)
+(after! beacon (beacon-mode 1))
+
+(use-package! focus)
+
+
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(after! (treemacs projectile)
+  (treemacs-project-follow-mode 1))
+
+
+(use-package dirvish
+  :ensure t
+  :init
+  ;; Let Dirvish take over Dired globally
+  (dirvish-override-dired-mode))
+
+
+;; Powerline Config
+
+#+begin_src elisp
 ;; https://www.reddit.com/r/emacs/comments/k4zavc/powerline_doom_emacs/
 ;; (require 'powerline)
 
@@ -122,7 +158,7 @@
   :init
   (setq powerline-default-separator 'arrow
         powerline-default-separator-dir (quote (left . right))
-        powerline-height 38
+        powerline-height 28
         powerline-display-buffer-size nil
         powerline-display-hud nil
         powerline-display-mule-info nil
@@ -345,5 +381,3 @@
   (kill-local-variable 'mode-line-format))
 
 (airline-themes-set-modeline)
-
-(setq doom-theme 'doom-one)
