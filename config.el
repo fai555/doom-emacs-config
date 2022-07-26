@@ -140,7 +140,6 @@
 
 ;; Powerline Config
 
-#+begin_src elisp
 ;; https://www.reddit.com/r/emacs/comments/k4zavc/powerline_doom_emacs/
 ;; (require 'powerline)
 
@@ -338,26 +337,31 @@
                      ;; (when powerline-display-mule-info
                      ;;   (powerline-raw mode-line-mule-info inner-face 'l))
                      ;; (powerline-raw " " inner-face)
-                     (powerline-raw (format " %s " buffer-file-coding-system) inner-face)
+
+                     ;; Uncomment below line to bring back file encoding
+                     ;; (powerline-raw (format " %s " buffer-file-coding-system) inner-face)
 
                      ;; Separator <
                      (funcall separator-right inner-face outer-face)
 
-                     ;; % location in file
-                     (powerline-raw "%3p" outer-face 'l)
+                     ;; ;; % location in file
+                     ;; (powerline-raw "%3p" outer-face 'l)
+
+                     ;; Current Line / File Size
+                     (powerline-raw "%I" outer-face 'l)
                      ;; LN charachter
                      (powerline-raw (char-to-string airline-utf-glyph-linenumber) outer-face 'l)
 
-                     ;; Current Line / File Size
-                     ;; (powerline-raw "%l/%I" outer-face 'l)
-                     ;; Current Line / Number of lines
-                     (powerline-raw
-                      (format "%%l/%d" (count-lines (point-min) (point-max))) outer-face 'l)
+                     ;; ;; Current Line / Number of lines
+                     ;; (powerline-raw
+                     ;;  (format "%%l/%d" (count-lines (point-min) (point-max))) outer-face 'l)
+
+                     (powerline-raw "%l/%c " outer-face 'l)
 
                      ;; (powerline-raw "ln :" outer-face 'l)
 
-                     ;; Current Column
-                     (powerline-raw "%3c " outer-face 'l)
+                     ;; ;; Current Column
+                     ;; (powerline-raw "%3c " outer-face 'l)
 
                      ;; ;; position in file image
                      ;; (when powerline-display-hud
