@@ -77,6 +77,10 @@
            (file "tech-notes.org")
            "* %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
            :kill-buffer t)
+          ("f" "FAANG Prep" entry
+           (file "faang-prep.org")
+           "* %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
+           :kill-buffer t)
           )))
 
 ;; https://github.com/bastibe/org-journal#journal-file-content
