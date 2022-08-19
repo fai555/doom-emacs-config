@@ -51,8 +51,11 @@
                   org-level-2
                   org-level-3
                   org-level-4
-                  org-level-5))
-  (set-face-attribute face nil :weight 'light :height 1.0)))
+                  org-level-5
+                  org-level-6
+                  org-level-7
+                  org-level-8))
+  (set-face-attribute face nil :weight 'regular :height 1.0)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
 
@@ -80,6 +83,10 @@
           ("f" "FAANG Prep" entry
            (file "faang-prep.org")
            "* %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
+           :kill-buffer t)
+          ("c" "Command Archive" entry
+           (file "command-archive.org")
+           "* %?\n#+begin_src bash :result output\n\n#+end_src\n"
            :kill-buffer t)
           )))
 
