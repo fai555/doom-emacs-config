@@ -1,6 +1,8 @@
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 12 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 12 :weight 'bold))
+;; (setq doom-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light)
+;;       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light))
 
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 )
+      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 ))
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -23,12 +25,13 @@
 (setq magit-ediff-dwim-show-on-hunks t)
 
 
-(setq! doom-unicode-font (font-spec :family "MesloLGS NF" ))
+(setq! doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 ))
+;; (setq! doom-unicode-font (font-spec :family "MesloLGS NF" :size 16 ))
 
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
 
-(setq org-superstar-headline-bullets-list '("⦿" "⦿" "⦿" "⦿" "⦿"))
+(setq org-superstar-headline-bullets-list '("⦿" "▶" "⦿" "▶" "⦿"))
 
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
@@ -126,7 +129,7 @@
 (setq all-the-icons-scale-factor 0.8)
 
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
 ;; global beacon minor-mode
 (use-package! beacon)
 (after! beacon (beacon-mode 1))
@@ -384,15 +387,27 @@
              (powerline-fill inner-face (powerline-width rhs))
              (powerline-render rhs))))
 
-(defun airline-themes-set-modeline ()
-  "Set the airline mode-line-format"
-  (interactive)
-  (setq-default mode-line-format
-                `("%e"
-                  (:eval
-                   ,(airline-themes-mode-line-format)
-                   )))
-  (powerline-reset)
-  (kill-local-variable 'mode-line-format))
+;; (defun airline-themes-set-modeline ()
+;;   "Set the airline mode-line-format"
+;;   (interactive)
+;;   (setq-default mode-line-format
+;;                 `("%e"
+;;                   (:eval
+;;                    ,(airline-themes-mode-line-format)
+;;                    )))
+;;   (powerline-reset)
+;;   (kill-local-variable 'mode-line-format))
 
-(airline-themes-set-modeline)
+;; (airline-themes-set-modeline)
+
+
+
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+
+;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
+(setq display-line-numbers-type nil)
