@@ -1,8 +1,8 @@
 ;; (setq doom-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light)
 ;;       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light))
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 )
-      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 ))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 )
+      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -25,7 +25,7 @@
 (setq magit-ediff-dwim-show-on-hunks t)
 
 
-(setq! doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 ))
+(setq! doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
 ;; (setq! doom-unicode-font (font-spec :family "MesloLGS NF" :size 16 ))
 
 ;; Disable exit confirmation
@@ -58,7 +58,7 @@
                   org-level-6
                   org-level-7
                   org-level-8))
-  (set-face-attribute face nil :weight 'regular :height 1.0)))
+  (set-face-attribute face nil :weight 'regular :height 1.2)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
 
@@ -119,8 +119,13 @@
 ;; ;; The maximum displayed length of the branch name of version control.
 ;; (setq doom-modeline-vcs-max-length 19)
 
+(setq doom-modeline-buffer-file-name-style 'relative-to-project)
+(setq doom-modeline-icon t)
+(setq doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-buffer-state-icon t)
+(setq doom-modeline-buffer-modification-icon t)
 ;; ;; Whether display the workspace name. Non-nil to display in the mode-line.
-;; (setq doom-modeline-workspace-name t)
+(setq doom-modeline-workspace-name t)
 
 ;; ;; Whether display the environment version.
 ;; (setq doom-modeline-env-vercion t)
@@ -129,7 +134,7 @@
 (setq all-the-icons-scale-factor 0.8)
 
 
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-moonlight)
 ;; global beacon minor-mode
 (use-package! beacon)
 (after! beacon (beacon-mode 1))
@@ -411,3 +416,13 @@
 
 ;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
 (setq display-line-numbers-type nil)
+
+
+
+(add-to-list 'default-frame-alist '(undecorated . t))
+
+
+
+
+(use-package all-the-icons
+  :ensure t)

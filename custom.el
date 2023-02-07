@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(hide-mode-line tree-sitter-indent tree-sitter-langs tree-sitter rich-minority catppuccin-theme)))
+   '(all-the-icons tree-sitter-indent tree-sitter-langs tree-sitter rich-minority)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
