@@ -431,3 +431,4 @@
 (add-hook 'org-mode-hook 'org-appear-mode)
 
 (add-to-list 'default-frame-alist '(alpha . 95))
+

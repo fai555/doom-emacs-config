@@ -61,3 +61,10 @@
 (package! beacon)
 (package! focus)
 (package! dirvish)
+
+
+;; org roam stuff
+;; https://github.com/org-roam/org-roam-ui#doom
+
+(unpin! org-roam)
+(package! org-roam-ui)
