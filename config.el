@@ -432,3 +432,146 @@
 
 (add-to-list 'default-frame-alist '(alpha . 95))
 
+
+;; https://hieuphay.com/doom-emacs-config/
+
+;; Start Doom fullscreen
+(add-to-list 'default-frame-alist '(width . 92))
+(add-to-list 'default-frame-alist '(height . 35))
+
+(use-package! doom-modeline
+  :config
+  (setq doom-modeline-persp-name t))
+
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-doc-delay 2
+        lsp-ui-doc-max-width 80)
+  (setq lsp-signature-function 'lsp-signature-posframe))
+
+
+(use-package! org
+  :config
+  (setq org-highlight-links
+        '(bracket angle plain tag date footnote))
+  ;; Setup custom links
+  (+org-init-custom-links-h))
+
+
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+   ;; Appearance
+   org-modern-radio-target    '("❰" t "❱")
+   org-modern-internal-target '("↪ " t "")
+   org-modern-todo nil
+   org-modern-tag nil
+   org-ellipsis "↵"
+   org-modern-timestamp t
+   org-modern-statistics nil
+   org-modern-progress nil
+   org-modern-priority nil
+   org-modern-horizontal-rule "──────────"
+   org-modern-keyword "▶"
+   org-modern-list '((43 . "•")
+                     (45 . "–")
+                     (42 . "∘")))
+
+
+  (custom-set-faces!
+    `((org-modern-tag)
+      :background ,(doom-blend (doom-color 'blue) (doom-color 'bg) 0.1)
+      :foreground ,(doom-color 'grey))
+    `((org-modern-radio-target org-modern-internal-target)
+      :inherit 'default :foreground ,(doom-color 'blue)))
+  )
+
+
+
+(use-package! svg-tag-mode
+  :config
+  (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
+  (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
+  (defconst day-re "[A-Za-z]\\{3\\}")
+  (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)?" day-re time-re))
+
+  (defun svg-progress-percent (value)
+    (svg-image (svg-lib-concat
+                (svg-lib-progress-bar
+                 (/ (string-to-number value) 100.0) nil
+                 :height 0.8 :background (doom-color 'bg)
+                 :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                (svg-lib-tag (concat value "%") nil
+                             :height 0.8 :background (doom-color 'bg)
+                             :stroke 0 :margin 0)) :ascent 'center))
+
+  (defun svg-progress-count (value)
+    (let* ((seq (mapcar #'string-to-number (split-string value "/")))
+           (count (float (car seq)))
+           (total (float (cadr seq))))
+      (svg-image (svg-lib-concat
+                  (svg-lib-progress-bar (/ count total) nil
+                                        :background (doom-color 'bg) :height 0.8
+                                        :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                  (svg-lib-tag value nil
+                               :background (doom-color 'bg)
+                               :stroke 0 :margin 0 :height 0.8)) :ascent 'center)))
+
+  (set-face-attribute 'svg-tag-default-face nil :family "Alegreya Sans")
+  (setq svg-tag-tags
+        `(;; Progress e.g. [63%] or [10/15]
+          ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
+                                              (svg-progress-percent (substring tag 1 -2)))))
+          ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
+                                            (svg-progress-count (substring tag 1 -1)))))
+          ;; Task priority e.g. [#A], [#B], or [#C]
+          ("\\[#A\\]" . ((lambda (tag) (svg-tag-make tag :face 'error :inverse t :height .85
+                                                     :beg 2 :end -1 :margin 0 :radius 10))))
+          ("\\[#B\\]" . ((lambda (tag) (svg-tag-make tag :face 'warning :inverse t :height .85
+                                                     :beg 2 :end -1 :margin 0 :radius 10))))
+          ("\\[#C\\]" . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t :height .85
+                                                     :beg 2 :end -1 :margin 0 :radius 10))))
+          ;; Keywords
+          ("TODO" . ((lambda (tag) (svg-tag-make tag :inverse t :height .85 :face 'org-todo))))
+          ("HOLD" . ((lambda (tag) (svg-tag-make tag :height .85 :face 'org-todo))))
+          ("DONE\\|STOP" . ((lambda (tag) (svg-tag-make tag :inverse t :height .85 :face 'org-done))))
+          ("NEXT\\|WAIT" . ((lambda (tag) (svg-tag-make tag :inverse t :height .85 :face '+org-todo-active))))
+          ("REPEAT\\|EVENT\\|PROJ\\|IDEA" .
+           ((lambda (tag) (svg-tag-make tag :inverse t :height .85 :face '+org-todo-project))))
+          ("REVIEW" . ((lambda (tag) (svg-tag-make tag :inverse t :height .85 :face '+org-todo-onhold))))))
+
+  :hook (org-mode . svg-tag-mode)
+  )
+
+
+(use-package! org-appear
+  :hook
+  (org-mode . org-appear-mode)
+  :config
+  (setq org-hide-emphasis-markers t
+        org-appear-autolinks      t))
+
+
+(use-package git-gutter
+  :hook (prog-mode . git-gutter-mode)
+  :config
+  (setq git-gutter:update-interval 0.02))
+
+(use-package git-gutter-fringe
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+
+
+(use-package! verb
+  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
