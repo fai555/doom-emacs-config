@@ -1,8 +1,6 @@
-;; (setq doom-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light)
-;;       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 20 :weight 'light))
-
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 )
       doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -440,11 +438,6 @@
 (add-to-list 'default-frame-alist '(width . 92))
 (add-to-list 'default-frame-alist '(height . 35))
 
-(use-package! doom-modeline
-  :config
-  (setq doom-modeline-persp-name t))
-
-
 (use-package! lsp-ui
   :config
   (setq lsp-ui-doc-delay 2
@@ -574,3 +567,118 @@
 ;;
 ;; https://github.com/doomemacs/doomemacs/issues/2217
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
+
+;; Stretch cursor to the glyph width
+(setq-default x-stretch-cursor t)
+
+(setq which-key-idle-delay 0.5 ;; Default is 1.0
+      which-key-idle-secondary-delay 0.05) ;; Default is nil
+
+
+
+;; (setq which-key-allow-multiple-replacements t)
+
+;; (after! which-key
+;;   (pushnew! which-key-replacement-alist
+;;             '((""       . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "🅔 \\1"))
+;;             '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)")       . (nil . "Ⓔ
+;;             \\1"))))
+
+
+
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+
+
+(setq company-global-modes
+      '(not erc-mode
+            circe-mode
+            message-mode
+            help-mode
+            gud-mode
+            vterm-mode
+            org-mode))
+
+
+
+
+(require 'awqat)
+(setq calendar-latitude 52.520008
+      calendar-longitude 13.404954)
+(setq awqat-asr-hanafi nil)
+(setq awqat-fajr-angle -18.0)
+(setq awqat-isha-angle -16.0)
+
+
+
+(use-package! awqat
+  :commands (awqat-display-prayer-time-mode awqat-times-for-day)
+  :config
+  ;; Make sure `calendar-latitude' and `calendar-longitude' are set,
+  ;; otherwise, set them here.
+  (setq awqat-asr-hanafi nil
+        awqat-mode-line-format " 🕌 ${prayer} (${hours}h${minutes}m) ")
+  (awqat-set-preset-french-muslims))
+
+
+(setq org-agenda-include-diary t)
+
+
+
+(use-package! grammarly
+  :config
+  (grammarly-load-from-authinfo))
+
+(use-package! lsp-grammarly
+  :commands (+lsp-grammarly-load +lsp-grammarly-toggle)
+  :init
+  (defun +lsp-grammarly-load ()
+    "Load Grammarly LSP server for LSP Mode."
+    (interactive)
+    (require 'lsp-grammarly)
+    (lsp-deferred)) ;; or (lsp)
+
+  (defun +lsp-grammarly-enabled-p ()
+    (not (member 'grammarly-ls lsp-disabled-clients)))
+
+  (defun +lsp-grammarly-enable ()
+    "Enable Grammarly LSP."
+    (interactive)
+    (when (not (+lsp-grammarly-enabled-p))
+      (setq lsp-disabled-clients (remove 'grammarly-ls lsp-disabled-clients))
+      (message "Enabled grammarly-ls"))
+    (+lsp-grammarly-load))
+
+  (defun +lsp-grammarly-disable ()
+    "Disable Grammarly LSP."
+    (interactive)
+    (when (+lsp-grammarly-enabled-p)
+      (add-to-list 'lsp-disabled-clients 'grammarly-ls)
+      (lsp-disconnect)
+      (message "Disabled grammarly-ls")))
+
+  (defun +lsp-grammarly-toggle ()
+    "Enable/disable Grammarly LSP."
+    (interactive)
+    (if (+lsp-grammarly-enabled-p)
+        (+lsp-grammarly-disable)
+      (+lsp-grammarly-enable)))
+
+  (after! lsp-mode
+    ;; Disable by default
+    (add-to-list 'lsp-disabled-clients 'grammarly-ls))
+
+  :config
+  (set-lsp-priority! 'grammarly-ls 1))
+
+
+(setq org-export-headline-levels 5)
+
+
+(after! text-mode
+  (add-hook! 'text-mode-hook
+    (unless (derived-mode-p 'org-mode)
+      ;; Apply ANSI color codes
+      (with-silent-modifications
+        (ansi-color-apply-on-region (point-min) (point-max) t)))))

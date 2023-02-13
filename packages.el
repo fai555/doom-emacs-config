@@ -68,3 +68,23 @@
 
 (unpin! org-roam)
 (package! org-roam-ui)
+
+
+(package! awqat
+  :recipe (:host github
+           :repo "zkry/awqat"))
+
+
+(package! vlf :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c")
+
+
+(package! grammarly
+  :recipe (:host github
+           :repo "emacs-grammarly/grammarly")
+  :pin "e47b370faace9ca081db0b87ae3bcfd73212c56d")
+
+(package! lsp-grammarly
+  :disable (or (not (modulep! :tools lsp)) (modulep! :tools lsp +eglot))
+  :recipe (:host github
+           :repo "emacs-grammarly/lsp-grammarly")
+  :pin "eab5292037478c32e7d658fb5cba8b8fb6d72a7c")
