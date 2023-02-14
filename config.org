@@ -1,4 +1,14 @@
+#+TITLE: Doom Emacs Configurations
+
+* Lexical Binding
+
+#+BEGIN_SRC emacs-lisp
 ;; -*- lexical-binding: t -*-
+#+END_SRC
+
+* Prayer Time
+
+#+begin_src emacs-lisp
 
 (require 'awqat)
 (setq calendar-latitude 52.520008
@@ -18,12 +28,30 @@
         awqat-mode-line-format " 🕌 ${prayer} (${hours}h${minutes}m) ")
   (awqat-set-preset-french-muslims))
 
+#+end_src
+
+* Theme
+
+#+begin_src emacs-lisp
+
 (setq doom-theme 'doom-moonlight)
+
+#+end_src
+
+* Font
+
+#+begin_src emacs-lisp
 
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 )
       doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
 
 (setq! doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
+
+#+end_src
+
+* Org Mode
+
+#+begin_src emacs-lisp
 
 (setq org-superstar-headline-bullets-list '("❱" "❱" "❱" "❱" "❱" "❱"))
 ;; (setq org-superstar-headline-bullets-list '("⦿" "▶" "⦿" "▶" "⦿" "▶"))
@@ -205,11 +233,24 @@
   (setq org-hide-emphasis-markers t
         org-appear-autolinks      t))
 
+
+#+end_src
+
+* Keybinding
+
+#+begin_src emacs-lisp
+
 (use-package! evil-escape
   :init
   (setq evil-escape-key-sequence "jj")
   (setq-default evil-escape-delay 0.2)
 )
+
+#+end_src
+
+* Doom Modeline
+
+#+begin_src emacs-lisp
 
 ;; (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
 
@@ -231,6 +272,17 @@
 
 ;; ;; Whether display the environment version.
 ;; (setq doom-modeline-env-vercion t)
+
+#+end_src
+
+* Rest
+#+begin_src emacs-lisp
+
+
+
+
+
+
 
 (require 'ob-async)
 
@@ -363,7 +415,20 @@
 
 (setq org-agenda-include-diary t)
 
+#+end_src
+
+* Magit
+
+#+begin_src emacs-lisp
+
+
 (setq magit-ediff-dwim-show-on-hunks t)
+
+#+end_src
+
+* Grammarly Integration
+
+#+begin_src emacs-lisp
 
 (use-package! grammarly
   :config
@@ -421,6 +486,12 @@
       ;; Apply ANSI color codes
       (with-silent-modifications
         (ansi-color-apply-on-region (point-min) (point-max) t)))))
+
+#+end_src
+
+* Powerline
+
+#+begin_src emacs-lisp
 
 ;; Powerline Config
 
@@ -670,5 +741,16 @@
 
 ;; (airline-themes-set-modeline)
 
+#+end_src
+
+* Misc
+
+#+begin_src emacs-lisp
+
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
+
+#+end_src
+
+* Good Emacs Config
+https://abdelhakbougouffa.pro/posts/config/#this-repository
