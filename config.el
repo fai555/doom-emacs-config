@@ -25,6 +25,8 @@
 
 (setq! doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
 
+(set-fontset-font t 'arabic "Noto Naskh Arabic")
+
 (setq org-superstar-headline-bullets-list '("❱" "❱" "❱" "❱" "❱" "❱"))
 ;; (setq org-superstar-headline-bullets-list '("⦿" "▶" "⦿" "▶" "⦿" "▶"))
 
@@ -238,11 +240,7 @@
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 3)
 
-
-
-
 (setq all-the-icons-scale-factor 0.8)
-
 
 ;; global beacon minor-mode
 (use-package! beacon)
@@ -250,22 +248,17 @@
 
 (use-package! focus)
 
-
-
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
 (after! (treemacs projectile)
   (treemacs-project-follow-mode 1))
 
-
 (use-package dirvish
   :ensure t
   :init
   ;; Let Dirvish take over Dired globally
   (dirvish-override-dired-mode))
-
-
 
 
 (use-package! tree-sitter
@@ -282,12 +275,8 @@
 
 (add-to-list 'default-frame-alist '(undecorated . t))
 
-
-
-
 (use-package all-the-icons
   :ensure t)
-
 
 (add-hook 'org-mode-hook 'org-appear-mode)
 
@@ -357,9 +346,6 @@
             help-mode
             gud-mode
             vterm-mode))
-
-
-
 
 (setq org-agenda-include-diary t)
 
