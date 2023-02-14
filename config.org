@@ -59,6 +59,8 @@
 
 * Org Mode
 
+** Bullets
+
 #+begin_src emacs-lisp
 
 (setq org-superstar-headline-bullets-list '("❱" "❱" "❱" "❱" "❱" "❱"))
@@ -67,10 +69,35 @@
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
 
+#+end_src
+
+** Org Directory with Dropbox Sync
+
+#+begin_src emacs-lisp
 
 (setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
 
+#+end_src
+
+** Hide Emphasis Marks
+
+#+begin_src emacs-lisp
+
 (after! org (setq org-hide-emphasis-markers t))
+
+#+end_src
+
+** Mermaid.js Integration
+
+#+begin_src emacs-lisp
+
+;; https://emacstil.com/til/2021/09/19/org-mermaid/
+(setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
+
+#+end_src
+
+** Rest of Org
+#+begin_src emacs-lisp
 
 (after! org
   (setq org-log-done t)
@@ -89,9 +116,6 @@
   (set-face-attribute face nil :weight 'regular :height 1.0)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
-
-;; https://emacstil.com/til/2021/09/19/org-mermaid/
-(setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
 
 ;; https://stackoverflow.com/questions/18582869/only-highlight-not-the-entire-heading-line-in-org-mode-emacs
 ;; (setq org-level-color-stars-only t)
@@ -284,6 +308,7 @@
 #+end_src
 
 * Rest
+
 #+begin_src emacs-lisp
 
 (require 'ob-async)
@@ -294,17 +319,7 @@
 
 (setq all-the-icons-scale-factor 0.8)
 
-;; global beacon minor-mode
-(use-package! beacon)
-(after! beacon (beacon-mode 1))
-
 (use-package! focus)
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(after! (treemacs projectile)
-  (treemacs-project-follow-mode 1))
 
 (use-package dirvish
   :ensure t
@@ -320,11 +335,6 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
-;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
-(setq display-line-numbers-type nil)
-
-
-
 (add-to-list 'default-frame-alist '(undecorated . t))
 
 (use-package all-the-icons
@@ -332,14 +342,6 @@
 
 (add-hook 'org-mode-hook 'org-appear-mode)
 
-;; (add-to-list 'default-frame-alist '(alpha . 95))
-
-
-;; https://hieuphay.com/doom-emacs-config/
-
-;; Start Doom fullscreen
-(add-to-list 'default-frame-alist '(width . 92))
-(add-to-list 'default-frame-alist '(height . 35))
 
 (use-package! lsp-ui
   :config
@@ -349,28 +351,11 @@
 
 
 
-(use-package git-gutter
-  :hook (prog-mode . git-gutter-mode)
-  :config
-  (setq git-gutter:update-interval 0.10))
 
-(use-package git-gutter-fringe
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-
-
-
-(use-package! verb
-  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 ;;
 ;; https://github.com/doomemacs/doomemacs/issues/2217
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-
-;; Stretch cursor to the glyph width
-(setq-default x-stretch-cursor t)
 
 (setq which-key-idle-delay 0.5 ;; Default is 1.0
       which-key-idle-secondary-delay 0.05) ;; Default is nil
@@ -385,12 +370,6 @@
 ;;             '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)")       . (nil . "Ⓔ
 ;;             \\1"))))
 
-
-
-(use-package! vlf-setup
-  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
-
-
 (setq company-global-modes
       '(not erc-mode
             circe-mode
@@ -398,8 +377,6 @@
             help-mode
             gud-mode
             vterm-mode))
-
-(setq org-agenda-include-diary t)
 
 #+end_src
 
@@ -734,6 +711,101 @@
 
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
+
+#+end_src
+
+* Line Numbers
+
+#+begin_src emacs-lisp
+
+;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
+(setq display-line-numbers-type nil)
+
+#+end_src
+
+* Transparent Emacs
+
+#+begin_src emacs-lisp
+
+(add-to-list 'default-frame-alist '(alpha . 95))
+
+#+end_src
+
+* Open Emacs in Full Screen Mode
+
+#+begin_src emacs-lisp
+
+;; https://hieuphay.com/doom-emacs-config/
+
+;; Start Doom fullscreen
+(add-to-list 'default-frame-alist '(width . 92))
+(add-to-list 'default-frame-alist '(height . 35))
+
+#+end_src
+
+* REST API Development
+
+#+begin_src emacs-lisp
+
+(use-package! verb
+  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+
+#+end_src
+
+* Beautiful Git Gutter and Fringe
+
+#+begin_src emacs-lisp
+
+(use-package git-gutter
+  :hook (prog-mode . git-gutter-mode)
+  :config
+  (setq git-gutter:update-interval 0.10))
+
+(use-package git-gutter-fringe
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+#+end_src
+
+* Stretch Cursor  to the Glyph Width
+
+#+begin_src emacs-lisp
+
+;; Stretch cursor to the glyph width
+(setq-default x-stretch-cursor t)
+
+#+end_src
+
+* Opening Large Files
+
+#+begin_src emacs-lisp
+
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+
+#+end_src
+
+* Beacon
+
+#+begin_src emacs-lisp
+
+;; global beacon minor-mode
+(use-package! beacon)
+(after! beacon (beacon-mode 1))
+
+#+end_src
+
+* Projectile
+
+#+begin_src emacs-lisp
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(after! (treemacs projectile)
+  (treemacs-project-follow-mode 1))
 
 #+end_src
 

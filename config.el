@@ -33,10 +33,12 @@
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
 
-
 (setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
 
 (after! org (setq org-hide-emphasis-markers t))
+
+;; https://emacstil.com/til/2021/09/19/org-mermaid/
+(setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
 
 (after! org
   (setq org-log-done t)
@@ -55,9 +57,6 @@
   (set-face-attribute face nil :weight 'regular :height 1.0)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
-
-;; https://emacstil.com/til/2021/09/19/org-mermaid/
-(setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc")
 
 ;; https://stackoverflow.com/questions/18582869/only-highlight-not-the-entire-heading-line-in-org-mode-emacs
 ;; (setq org-level-color-stars-only t)
@@ -242,17 +241,7 @@
 
 (setq all-the-icons-scale-factor 0.8)
 
-;; global beacon minor-mode
-(use-package! beacon)
-(after! beacon (beacon-mode 1))
-
 (use-package! focus)
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(after! (treemacs projectile)
-  (treemacs-project-follow-mode 1))
 
 (use-package dirvish
   :ensure t
@@ -268,11 +257,6 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
-;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
-(setq display-line-numbers-type nil)
-
-
-
 (add-to-list 'default-frame-alist '(undecorated . t))
 
 (use-package all-the-icons
@@ -280,14 +264,6 @@
 
 (add-hook 'org-mode-hook 'org-appear-mode)
 
-;; (add-to-list 'default-frame-alist '(alpha . 95))
-
-
-;; https://hieuphay.com/doom-emacs-config/
-
-;; Start Doom fullscreen
-(add-to-list 'default-frame-alist '(width . 92))
-(add-to-list 'default-frame-alist '(height . 35))
 
 (use-package! lsp-ui
   :config
@@ -297,28 +273,11 @@
 
 
 
-(use-package git-gutter
-  :hook (prog-mode . git-gutter-mode)
-  :config
-  (setq git-gutter:update-interval 0.10))
 
-(use-package git-gutter-fringe
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-
-
-
-(use-package! verb
-  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 ;;
 ;; https://github.com/doomemacs/doomemacs/issues/2217
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-
-;; Stretch cursor to the glyph width
-(setq-default x-stretch-cursor t)
 
 (setq which-key-idle-delay 0.5 ;; Default is 1.0
       which-key-idle-secondary-delay 0.05) ;; Default is nil
@@ -333,12 +292,6 @@
 ;;             '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)")       . (nil . "Ⓔ
 ;;             \\1"))))
 
-
-
-(use-package! vlf-setup
-  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
-
-
 (setq company-global-modes
       '(not erc-mode
             circe-mode
@@ -346,8 +299,6 @@
             help-mode
             gud-mode
             vterm-mode))
-
-(setq org-agenda-include-diary t)
 
 (setq magit-ediff-dwim-show-on-hunks t)
 
@@ -658,3 +609,44 @@
 
 ;; Disable exit confirmation
 (setq confirm-kill-emacs nil)
+
+;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
+(setq display-line-numbers-type nil)
+
+(add-to-list 'default-frame-alist '(alpha . 95))
+
+;; https://hieuphay.com/doom-emacs-config/
+
+;; Start Doom fullscreen
+(add-to-list 'default-frame-alist '(width . 92))
+(add-to-list 'default-frame-alist '(height . 35))
+
+(use-package! verb
+  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+
+(use-package git-gutter
+  :hook (prog-mode . git-gutter-mode)
+  :config
+  (setq git-gutter:update-interval 0.10))
+
+(use-package git-gutter-fringe
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+;; Stretch cursor to the glyph width
+(setq-default x-stretch-cursor t)
+
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+
+;; global beacon minor-mode
+(use-package! beacon)
+(after! beacon (beacon-mode 1))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(after! (treemacs projectile)
+  (treemacs-project-follow-mode 1))
