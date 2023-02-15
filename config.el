@@ -638,8 +638,16 @@
 ;; Stretch cursor to the glyph width
 (setq-default x-stretch-cursor t)
 
-(use-package! vlf-setup
-  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+;; Commented out since it was showing the below warning and
+;; I don't have time to debug it
+
+;; ~/.emacs.d/.local/straight/build-29.0.60/vlf/vlf-ediff.elc: Warning: Use
+;;     ‘with-current-buffer’ rather than save-excursion+set-buffer
+;; ~/.emacs.d/.local/straight/build-29.0.60/vlf/vlf-ediff.elc: Warning: Use
+;;     ‘with-current-buffer’ rather than save-excursion+set-buffer
+
+;; (use-package! vlf-setup
+;;   :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
 
 ;; global beacon minor-mode
 (use-package! beacon)
