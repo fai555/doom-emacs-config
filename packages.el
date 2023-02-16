@@ -88,3 +88,10 @@
   :recipe (:host github
            :repo "emacs-grammarly/lsp-grammarly")
   :pin "eab5292037478c32e7d658fb5cba8b8fb6d72a7c")
+
+
+(package! ranger)
+(package! dired-narrow)
+(package! dired-open)
+(package! verb)
+(package! tree-sitter)
