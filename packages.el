@@ -95,3 +95,4 @@
 (package! dired-open)
 (package! verb)
 (package! tree-sitter)
+(package! org-modern)

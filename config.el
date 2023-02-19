@@ -307,14 +307,6 @@
   ;; Let Dirvish take over Dired globally
   (dirvish-override-dired-mode))
 
-
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-
 (add-to-list 'default-frame-alist '(undecorated . t))
 
 (use-package all-the-icons
@@ -407,8 +399,11 @@
 ;; https://hieuphay.com/doom-emacs-config/
 
 ;; Start Doom fullscreen
-(add-to-list 'default-frame-alist '(width . 92))
-(add-to-list 'default-frame-alist '(height . 35))
+;; (add-to-list 'default-frame-alist '(width . 92))
+;; (add-to-list 'default-frame-alist '(height . 35))
+
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-hook 'window-setup-hook #'toogle-frame-maximized)
 
 (use-package! verb
   :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
