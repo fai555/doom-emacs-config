@@ -148,8 +148,8 @@
        (json
         +lsp
         +tree-sitter)      ; At least it ain't XML
-       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       javascript          ; all(hope(abandon(ye(who(enter(here))))))
+       (java +lsp)         ; the poster child for carpal tunnel syndrome
+       (javascript +lsp +tree-sitter)   ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        (kotlin +lsp)       ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
@@ -189,8 +189,8 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       ;;web               ; the tubes
-       yaml                ; JSON, but readable
+       web                 ; the tubes
+       (yaml +lsp)         ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email
