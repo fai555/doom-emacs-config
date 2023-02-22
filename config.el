@@ -395,7 +395,7 @@
 ;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
 (setq display-line-numbers-type nil)
 
-(add-to-list 'default-frame-alist '(alpha . 95))
+(add-to-list 'default-frame-alist '(alpha . 85))
 
 ;; https://hieuphay.com/doom-emacs-config/
 
@@ -440,7 +440,7 @@
 (use-package git-gutter
   :hook (prog-mode . git-gutter-mode)
   :config
-  (setq git-gutter:update-interval 0.10))
+  (setq git-gutter:update-interval 0.20))
 
 (use-package git-gutter-fringe
   :config
@@ -601,3 +601,11 @@
 
 (setq highlight-indent-guides-delay 0)
 (setq highlight-indent-guides-responsive 'top)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(use-package centered-cursor-mode
+  :demand
+  :config
+  ;; Optional, enables centered-cursor-mode in all buffers.
+  (global-centered-cursor-mode))
