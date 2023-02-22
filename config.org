@@ -6,6 +6,11 @@ Good place to start
 https://www.reddit.com/r/emacs/comments/zr15cp/installing_emacs29_on_mac_m1/
 https://github.com/d12frosted/homebrew-emacs-plus/issues/485#issuecomment-1308164501
 
+* Good Emacs Config
+
+https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:16B948EA-5375-44DE-ACD7-3664D4A9CE5F
+https://abdelhakbougouffa.pro/posts/config/#this-repository
+
 * Lexical Binding
 
 #+BEGIN_SRC emacs-lisp
@@ -869,5 +874,3 @@ https://github.com/zweifisch/ob-http
 
 #+end_src
 
-* Good Emacs Config
-https://abdelhakbougouffa.pro/posts/config/#this-repository
