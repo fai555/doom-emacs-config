@@ -834,5 +834,14 @@ https://github.com/zweifisch/ob-http
 
 #+end_src
 
+* Indent Guides
+
+#+begin_src emacs-lisp
+
+(setq highlight-indent-guides-delay 0)
+(setq highlight-indent-guides-responsive 'top)
+
+#+end_src
+
 * Good Emacs Config
 https://abdelhakbougouffa.pro/posts/config/#this-repository

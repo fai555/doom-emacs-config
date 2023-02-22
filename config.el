@@ -598,3 +598,6 @@
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save)))
+
+(setq highlight-indent-guides-delay 0)
+(setq highlight-indent-guides-responsive 'top)
