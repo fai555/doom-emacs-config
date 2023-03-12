@@ -193,9 +193,12 @@
 
 (use-package centered-cursor-mode
   :demand
+  :hook (prog-mode . centered-cursor-mode)
   :config
   ;; Optional, enables centered-cursor-mode in all buffers.
-  (global-centered-cursor-mode))
+  ;; (global-centered-cursor-mode)
+  (setq centered-cursor-mode t)
+  )
 
 ;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
 (setq display-line-numbers-type nil)
