@@ -105,11 +105,11 @@
 
 
 (when (eq system-type 'darwin)
-  (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 ))
-  (setq doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 15))
+  (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'light))
+  (setq doom-big-font (font-spec :family "Iosevka Nerd Font Mono" :size 18 :weight 'light))
   (setq doom-big-font-increment 3)
-  (setq doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 ))
-  (setq doom-variable-pitch-font (font-spec :family "FiraCode Nerd Font Mono" :size 10 :weight 'regular))
+  (setq doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 15  :weight 'light))
+  (setq doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'light))
   (font-put doom-font :weight 'regular))
 
 
@@ -158,6 +158,10 @@
           ("c" "Command Archive" entry
            (file "command-archive.org")
            "* %?\n#+begin_src bash :result output\n\n#+end_src\n"
+           :kill-buffer t)
+          ("o" "Office Notes" entry
+           (file "office-notes.org")
+           "* %?\n:PROPERTIES:\n:CREATED:%U\n:END:\n%i\n"
            :kill-buffer t)
           )))
 
@@ -225,3 +229,26 @@
       (apply orig-fun args))))
 
 
+
+(add-hook 'shell-mode-hook (lambda () (goto-address-mode )))
+(add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
+
+(use-package company-tabnine :ensure t)
+
+(after! company
+  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
+  (setq company-show-numbers t)
+  (setq company-idle-delay 0)
+)
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+
+
+(use-package jest
+  :after (js2-mode)
+  :hook (js2-mode . jest-minor-mode))
+
+(setq org-superstar-headline-bullets-list '("❱" "❱" "❱" "❱" "❱" "❱"))
