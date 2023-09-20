@@ -87,6 +87,15 @@ https://abdelhakbougouffa.pro/posts/config/#this-repository
 
 #+end_src
 
+* TreeSitter
+#+begin_src emacs-lisp
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+
 * Projectile
 
 #+begin_src emacs-lisp
@@ -187,7 +196,8 @@ https://abdelhakbougouffa.pro/posts/config/#this-repository
 
 #+begin_src emacs-lisp
 
-(setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
+;; (setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
+(setq org-directory "~/Dropbox/Notes/Orgzly")
 
 #+end_src
 
@@ -285,7 +295,7 @@ https://abdelhakbougouffa.pro/posts/config/#this-repository
    ;; Edit settings
    org-auto-align-tags nil
    org-tags-column 0
-   org-catch-invisible-edits 'show-and-error
+   org-fold-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
    ;; Appearance
@@ -558,6 +568,9 @@ https://abdelhakbougouffa.pro/posts/config/#this-repository
 (add-to-list 'default-frame-alist '(alpha . 85))
 
 #+end_src
+
+#+RESULTS:
+: ((alpha . 75) (buffer-predicate . doom-buffer-frame-predicate) (right-divider-width . 1) (bottom-divider-width . 1) (alpha . 85) (inhibit-double-buffering . t) (undecorated . t) (menu-bar-lines . 1) (vertical-scroll-bars) (tool-bar-lines . 0))
 
 * Open Emacs in Full Screen Mode
 
@@ -865,12 +878,27 @@ https://github.com/zweifisch/ob-http
 * centered cursor mode   ui_extra
 
 #+begin_src emacs-lisp
+;; keep the cursor centered to avoid sudden scroll jumps
+(require 'centered-cursor-mode)
 
-(use-package centered-cursor-mode
-  :demand
-  :config
-  ;; Optional, enables centered-cursor-mode in all buffers.
-  (global-centered-cursor-mode))
+;; disable in terminal modes
+;; http://stackoverflow.com/a/6849467/519736
+;; also disable in Info mode, because it breaks going back with the backspace key
+(define-global-minor-mode my-global-centered-cursor-mode centered-cursor-mode
+  (lambda ()
+    (when (not (memq major-mode
+                     (list 'Info-mode 'vterm-mode 'term-mode 'eshell-mode 'shell-mode 'erc-mode)))
+      (centered-cursor-mode))))
+(my-global-centered-cursor-mode 1)
+;; (use-package centered-cursor-mode
+;;   :demand
+;;   :config
+;;   ;; Optional, enables centered-cursor-mode in all buffers.
+;;   (global-centered-cursor-mode))
 
 #+end_src
 
+* Ace Window
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-o") 'ace-window)
+#+end_src

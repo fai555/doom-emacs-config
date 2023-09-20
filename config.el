@@ -34,6 +34,12 @@
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
 
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
 (after! projectile
   (setq +workspaces-on-switch-project-behavior t)
 
@@ -98,7 +104,8 @@
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
 
-(setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
+;; (setq org-directory "/Volumes/base/cerebro/Dropbox/Notes/Orgzly")
+(setq org-directory "~/Dropbox/Notes/Orgzly")
 
 (after! org (setq org-hide-emphasis-markers t))
 
@@ -179,7 +186,7 @@
    ;; Edit settings
    org-auto-align-tags nil
    org-tags-column 0
-   org-catch-invisible-edits 'show-and-error
+   org-fold-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
    ;; Appearance
@@ -604,8 +611,22 @@
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-(use-package centered-cursor-mode
-  :demand
-  :config
-  ;; Optional, enables centered-cursor-mode in all buffers.
-  (global-centered-cursor-mode))
+;; keep the cursor centered to avoid sudden scroll jumps
+(require 'centered-cursor-mode)
+
+;; disable in terminal modes
+;; http://stackoverflow.com/a/6849467/519736
+;; also disable in Info mode, because it breaks going back with the backspace key
+(define-global-minor-mode my-global-centered-cursor-mode centered-cursor-mode
+  (lambda ()
+    (when (not (memq major-mode
+                     (list 'Info-mode 'vterm-mode 'term-mode 'eshell-mode 'shell-mode 'erc-mode)))
+      (centered-cursor-mode))))
+(my-global-centered-cursor-mode 1)
+;; (use-package centered-cursor-mode
+;;   :demand
+;;   :config
+;;   ;; Optional, enables centered-cursor-mode in all buffers.
+;;   (global-centered-cursor-mode))
+
+(global-set-key (kbd "M-o") 'ace-window)

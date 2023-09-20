@@ -95,6 +95,7 @@
 (package! dired-open)
 (package! verb)
 (package! tree-sitter)
+(package! tree-sitter-langs)
 (package! org-modern)
 
 (package! rainbow-delimiters)
