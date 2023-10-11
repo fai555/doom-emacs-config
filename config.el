@@ -16,13 +16,17 @@
   (awqat-set-preset-french-muslims))
 
 (setq doom-theme 'doom-moonlight)
+(setq doom-themes-treemacs-theme "doom-colors")
+
+(require 'evil-multiedit)
+(evil-multiedit-default-keybinds)
 
 (when (eq system-type 'darwin)
-  (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
-  (setq doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 17))
+  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font Mono" :size 14 ))
+  (setq doom-big-font (font-spec :family "IosevkaTerm Nerd Font Mono" :size 17))
   (setq doom-big-font-increment 3)
-  (setq doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 ))
-  (setq doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
+  (setq doom-unicode-font (font-spec :family "IosevkaTerm Nerd Font Mono" :size 14 ))
+  (setq doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font Mono" :size 14))
   (font-put doom-font :weight 'regular))
 
 (set-fontset-font t 'arabic "Noto Naskh Arabic")
@@ -402,7 +406,7 @@
 ;; https://github.com/doomemacs/doomemacs/issues/870#issuecomment-419455026
 (setq display-line-numbers-type nil)
 
-(add-to-list 'default-frame-alist '(alpha . 85))
+(add-to-list 'default-frame-alist '(alpha . 100))
 
 ;; https://hieuphay.com/doom-emacs-config/
 
@@ -413,14 +417,101 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; (add-hook 'window-setup-hook #'toogle-frame-maximized)
 
+;;--------------------------------------------------------------------
+;; Emacs SQL client `ejc-sql'.
+;;
+(require 'ejc-sql)
+;; Require completion frontend (autocomplete or company). One of them or both.
+(require 'ejc-autocomplete)
+(require 'ejc-company)
+
+(setq nrepl-sync-request-timeout 60)
+(setq clomacs-httpd-default-port 8090) ; Use a port other than 8080.
+;; Allow use any CIDER nREPL not only library dedicated nREPL
+;; (setq clomacs-allow-other-repl t)
+
+;; Show results of SQL snippets evaluation in `org-mode'
+;; in dedicated buffer.
+(setq ejc-org-mode-show-results nil)
+(setq ejc-use-flx t)                          ; Enable `flx' fuzzy matching.
+(setq ejc-completion-system 'standard)
+(setq ejc-result-table-impl 'ejc-result-mode) ; Set major-mode for results.
+;; (setq ejc-result-table-impl 'orgtbl-mode)  ; Default major-mode for results.
+
+;; Since `winner-mode' is enabled and M-<arrow> keys are used for
+;; windows navigation, so disable this keys for `orgtbl-mode-map'.
+(define-key orgtbl-mode-map (kbd "<return>") nil)
+(define-key orgtbl-mode-map (kbd "M-<left>") nil)
+(define-key orgtbl-mode-map (kbd "M-<right>") nil)
+(define-key orgtbl-mode-map (kbd "M-<down>") nil)
+(define-key orgtbl-mode-map (kbd "M-<up>") nil)
+;; Use C-M-<arrow> keys instead.
+(define-key orgtbl-mode-map (kbd "C-M-<left>") 'org-table-move-column-left)
+(define-key orgtbl-mode-map (kbd "C-M-<right>") 'org-table-move-column-right)
+(define-key orgtbl-mode-map (kbd "C-M-<up>") 'org-table-move-row-up)
+(define-key orgtbl-mode-map (kbd "C-M-<down>") 'org-table-move-row-down)
+;; Add run SQL key familiar to users of PLSQL Developer.
+(define-key ejc-sql-mode-keymap (kbd "<F8>") 'ejc-eval-user-sql-at-point)
+
+(defun k/ejc-after-emacs-init-hook ()
+  (push 'ejc-company-backend company-backends)
+  ;; In case of `company-mode' is used by default this can be useful:
+  ;; (company-quickhelp-mode)
+  )
+
+(add-hook 'after-init-hook 'k/ejc-after-emacs-init-hook)
+
+(defun k/sql-mode-hook ()
+  (ejc-sql-mode t))
+
+(add-hook 'sql-mode-hook 'k/sql-mode-hook)
+
+(defun k/ejc-result-mode-hook ()
+  (display-line-numbers-mode))
+
+(add-hook 'ejc-result-mode-hook 'k/ejc-result-mode-hook)
+
+(defun k/ejc-sql-mode-hook ()
+  ;; Enable one of the completion frontend by by default but not both.
+  (auto-complete-mode t) ; Enable `auto-complete-mode'
+  (ejc-ac-setup)
+  ;; (company-mode t)    ; or `company-mode'.
+  (ejc-eldoc-setup)      ; Setup ElDoc.
+  (font-lock-warn-todo)       ; See custom/look-and-feel.el
+  (rainbow-delimiters-mode t) ; https://github.com/Fanael/rainbow-delimiters
+  (idle-highlight-mode t)     ; https://github.com/nonsequitur/idle-highlight-mode
+  (paredit-everywhere-mode)   ; https://github.com/purcell/paredit-everywhere
+  (electric-pair-mode))
+
+(add-hook 'ejc-sql-minor-mode-hook 'k/ejc-sql-mode-hook)
+
+(defun k/ejc-sql-connected-hook ()
+  (ejc-set-fetch-size 99)         ; Limit for the number of records to output.
+  (ejc-set-max-rows 99)           ; Limit for the number of records in ResultSet.
+  (ejc-set-show-too-many-rows-message t) ; Set output 'Too many rows' message.
+  (ejc-set-column-width-limit 25) ; Limit for outputing the number of chars per column.
+  (ejc-set-use-unicode t)         ; Use unicode symbols for grid borders.
+  )
+
+(add-hook 'ejc-sql-connected-hook 'k/ejc-sql-connected-hook)
+
+;; Load file with actual connections configurations -
+;; `ejc-create-connection' calls.
+(require 'ejc-databases nil 'noerror)
+
+(provide 'ejc-sql-conf)
+
+;;; ejc-sql-conf.el ends here
+
 (use-package! verb
   :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (python . t)
-   (http . t)))
+   (http . t)
+   (sql . t)
+   (python . t)))
 
 (setq org-confirm-babel-evaluate nil)
 
@@ -480,7 +571,7 @@
   (treemacs-project-follow-mode 1))
 
 (setenv "JAVA_HOME"
-        "/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home")
+        "/Users/fshourove/.sdkman/candidates/java/17.0.8.1-tem")
 ;; ;; switch java
 ;; ;;
 ;; (setq JAVA_BASE "/Users/fshourove/Library/Java/JavaVirtualMachines")
@@ -542,9 +633,7 @@
 ;;   (message (concat "Java HOME: " (getenv "JAVA_HOME"))))
 
 ;; (add-to-list 'exec-path "~/kotlin-language-server")
-;; (add-to-list 'exec-path "~/kotlin-language-server/server/build/distributions/server-1.3.2")
-
-;; (setenv "JAVA_HOME" "<java home path>")
+(add-to-list 'exec-path "~/git/fai555/server/bin/kotlin-language-server")
 
 (use-package! info-colors
   :commands (info-colors-fontify-node))
@@ -630,3 +719,49 @@
 ;;   (global-centered-cursor-mode))
 
 (global-set-key (kbd "M-o") 'ace-window)
+
+(defun zz/org-download-paste-clipboard (&optional use-default-filename)
+  (interactive "P")
+  (require 'org-download)
+  (let ((file
+         (if (not use-default-filename)
+             (read-string (format "Filename [%s]: "
+                                  org-download-screenshot-basename)
+                          nil nil org-download-screenshot-basename)
+           nil)))
+    (org-download-clipboard file)))
+
+(after! org
+  (setq org-download-method 'directory)
+  (setq org-download-image-dir "images")
+  (setq org-download-heading-lvl nil)
+  (setq org-download-timestamp "%Y%m%d-%H%M%S_")
+  (setq org-image-actual-width 300)
+  (map! :map org-mode-map
+        "C-c l a y" #'zz/org-download-paste-clipboard
+        "C-M-y" #'zz/org-download-paste-clipboard))
+
+(after! mu4e
+  (setq sendmail-program (executable-find "msmtp")
+	send-mail-function #'smtpmail-send-it
+	message-sendmail-f-is-evil t
+	message-sendmail-extra-arguments '("--read-envelope-from")
+	message-send-mail-function #'message-send-mail-with-sendmail))
+
+
+(set-email-account!
+ "gmail"
+ '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
+   (mu4e-trash-folder      . "/[Gmail]/Bin")
+   (smtpmail-smtp-user     . "al.imran.connect@gmail.com"))
+ t)
+(setq mu4e-get-mail-command "mbsync gmail"
+      ;; get emails and index every 5 minutes
+      mu4e-update-interval 300
+	  ;; send emails with format=flowed
+	  mu4e-compose-format-flowed t
+	  ;; no need to run cleanup after indexing for gmail
+	  mu4e-index-cleanup nil
+	  mu4e-index-lazy-check t
+      ;; more sensible date format
+      mu4e-headers-date-format "%d.%m.%y")
