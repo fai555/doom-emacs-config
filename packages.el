@@ -60,8 +60,6 @@
 ;; https://ruivieira.dev/doom-emacs.html#2QrAfe_5b_:0.H7O31EP5n:1~sesesseesesssesesesesesseessesesesesessesessessesesesssesessssessesesessss~m~n
 (package! beacon)
 (package! focus)
-(package! dirvish)
-
 
 ;; org roam stuff
 ;; https://github.com/org-roam/org-roam-ui#doom
@@ -69,6 +67,18 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 
+
+(package! mu4e-dashboard
+  :recipe (:host github
+           :repo "rougier/mu4e-dashboard"))
+
+(package! mu4e-thread-folding
+  :recipe (:host github
+           :repo "rougier/mu4e-thread-folding"))
+
+(package! doom-snippets
+  :recipe (:host github
+           :repo "doomemacs/snippets" :files ("*.el" "*")))
 
 (package! awqat
   :recipe (:host github
