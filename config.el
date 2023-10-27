@@ -105,11 +105,11 @@
 
 
 (when (eq system-type 'darwin)
-  (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'light))
-  (setq doom-big-font (font-spec :family "Iosevka Nerd Font Mono" :size 18 :weight 'light))
+  (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'light))
+  (setq doom-big-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'light))
   (setq doom-big-font-increment 3)
-  (setq doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 15  :weight 'light))
-  (setq doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'light))
+  (setq doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 12  :weight 'light))
+  (setq doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'light))
   (font-put doom-font :weight 'regular))
 
 
